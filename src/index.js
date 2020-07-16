@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
+import { Grid } from 'semantic-ui-react';
+
+import Dashboard from './views/Dashboard';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Dashboard />,
   document.getElementById('root')
 );
