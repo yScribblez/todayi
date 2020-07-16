@@ -1,53 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import { Grid, List, Header, Input, Modal, Rating } from 'semantic-ui-react';
 
-const JournalEntry = ({ open, date, items, onClose, tag }) => (
-  <Modal open={open} onClose={onClose}>
-    <Modal.Header>
-      <Grid>
-        <Grid.Column centered="true" floated="left" width={6}>
-          <div>{date}</div>
-        </Grid.Column>
-        <Grid.Column centered="true" floated="right" width={2}>
-          <Rating icon="star" defaultRating={3} maxRating={5} />
-        </Grid.Column>
-      </Grid>
-    </Modal.Header>
-    <Modal.Content>
-      <Grid columns="equal">
-        <Grid.Column>
-          <Modal.Description>
-            <Header>today i...</Header>
-            <List>
-              {items.map(item => (
-                <List.Item key={item.id}>
-                  <List.Icon name={tag} />
-                  <List.Content>
-                    <List.Header>{item.header}</List.Header>
-                    <List.Description>{item.description}</List.Description>
-                  </List.Content>
-                </List.Item>
-              ))}
-            </List>
-            <Input
-              icon={tag}
-              iconPosition="left"
-              action={{
-                color: 'black',
-                labelPosition: 'right',
-                icon: 'plus',
-                content: 'Add Item'
-              }}
-              placeholder="Enter Item"
+const JournalEntry = ({ open, date, items, onClose, tag }) => {
+  const [inputValue, setInputValue] = useState('');
+  const [entryItems, setEntryItems] = useState(items);
+
+  const addEntryItem = (itemHeader, itemDescription) => {
+    const newEntryItems = [
+      ...entryItems,
+      { header: itemHeader, description: itemDescription }
+    ];
+    setEntryItems(newEntryItems);
+  };
+
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Modal.Header>
+        <Grid>
+          <Grid.Column centered="true" floated="left" width={6}>
+            <div>{date}</div>
+          </Grid.Column>
+          <Grid.Column centered="true" floated="right" width={2}>
+            <Rating
+              icon="star"
+              defaultRating={3}
+              maxRating={5}
+              style={{ outline: 0 }}
             />
-          </Modal.Description>
-        </Grid.Column>
-      </Grid>
-    </Modal.Content>
-  </Modal>
-);
+          </Grid.Column>
+        </Grid>
+      </Modal.Header>
+      <Modal.Content>
+        <Grid columns="equal">
+          <Grid.Column>
+            <Modal.Description>
+              <Header>today i...</Header>
+              <List>
+                {entryItems.map(item => (
+                  <List.Item key={shortid.generate()}>
+                    <List.Icon name={tag} />
+                    <List.Content>
+                      <List.Header>{item.header}</List.Header>
+                      <List.Description>{item.description}</List.Description>
+                    </List.Content>
+                  </List.Item>
+                ))}
+              </List>
+              <Input
+                icon={tag}
+                iconPosition="left"
+                action={{
+                  color: 'black',
+                  labelPosition: 'right',
+                  icon: 'plus',
+                  content: 'Add Item',
+                  onClick: () => {
+                    addEntryItem(inputValue, '');
+                    setInputValue('');
+                  }
+                }}
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+                placeholder="Enter Item"
+              />
+            </Modal.Description>
+          </Grid.Column>
+        </Grid>
+      </Modal.Content>
+    </Modal>
+  );
+};
 
 JournalEntry.propTypes = {
   /**
@@ -63,7 +88,6 @@ JournalEntry.propTypes = {
    */
   items: PropTypes.arrayOf(
     PropTypes.exact({
-      id: PropTypes.any,
       header: PropTypes.string,
       description: PropTypes.string
     })
@@ -79,7 +103,7 @@ JournalEntry.propTypes = {
 };
 
 JournalEntry.defaultProps = {
-  tag: "tag",
+  tag: 'tag',
   onClose: undefined
 };
 
