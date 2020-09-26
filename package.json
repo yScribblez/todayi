@@ -7,19 +7,23 @@
     "react-calendar-heatmap": "^1.8.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.3",
+    "semantic-ui-calendar-react": "^0.15.3",
     "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "test": "jest",
-    "eject": "react-scripts eject",
     "lint": "eslint src/",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
+    "@craco/craco": "^5.6.4",
+    "@semantic-ui-react/craco-less": "^1.2.1",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
@@ -41,14 +45,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-standard": "^4.0.1",
+    "semantic-ui-less": "^2.4.1",
     "shortid": "^2.2.15"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
